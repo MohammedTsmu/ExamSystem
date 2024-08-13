@@ -38,7 +38,7 @@ CREATE TABLE `answers` (
   CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`),
   CONSTRAINT `answers_ibfk_3` FOREIGN KEY (`exam_id`) REFERENCES `exams` (`id`),
   CONSTRAINT `answers_ibfk_4` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `answers` (
 
 LOCK TABLES `answers` WRITE;
 /*!40000 ALTER TABLE `answers` DISABLE KEYS */;
-INSERT INTO `answers` VALUES (76,20,2,3,7,'A'),(77,21,2,3,7,'A');
+INSERT INTO `answers` VALUES (76,20,2,3,7,'A'),(77,21,2,3,7,'A'),(78,23,2,3,7,'B'),(79,25,2,3,7,'D'),(80,26,2,3,7,'B');
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,6 +74,88 @@ LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
 INSERT INTO `exams` VALUES (3,'Demo 1','2024-08-13'),(4,'Demo 2','2024-08-13');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_exams`
+--
+
+DROP TABLE IF EXISTS `group_exams`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_exams` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `exam_id` (`exam_id`),
+  CONSTRAINT `group_exams_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `group_exams_ibfk_2` FOREIGN KEY (`exam_id`) REFERENCES `exams` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_exams`
+--
+
+LOCK TABLES `group_exams` WRITE;
+/*!40000 ALTER TABLE `group_exams` DISABLE KEYS */;
+INSERT INTO `group_exams` VALUES (10,4,3),(11,4,4);
+/*!40000 ALTER TABLE `group_exams` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `group_students`
+--
+
+DROP TABLE IF EXISTS `group_students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `student_id` (`student_id`),
+  CONSTRAINT `group_students_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `group_students_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_students`
+--
+
+LOCK TABLES `group_students` WRITE;
+/*!40000 ALTER TABLE `group_students` DISABLE KEYS */;
+INSERT INTO `group_students` VALUES (9,4,2),(10,4,4);
+/*!40000 ALTER TABLE `group_students` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (4,'Pharmacy year #1');
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -127,7 +209,7 @@ CREATE TABLE `results` (
   KEY `exam_id` (`exam_id`),
   CONSTRAINT `results_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`),
   CONSTRAINT `results_ibfk_2` FOREIGN KEY (`exam_id`) REFERENCES `exams` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +218,7 @@ CREATE TABLE `results` (
 
 LOCK TABLES `results` WRITE;
 /*!40000 ALTER TABLE `results` DISABLE KEYS */;
-INSERT INTO `results` VALUES (20,2,3,0,'2024-08-13 18:16:41'),(21,2,3,0,'2024-08-13 18:17:06'),(22,2,4,0,'2024-08-13 18:17:15');
+INSERT INTO `results` VALUES (20,2,3,0,'2024-08-13 18:16:41'),(21,2,3,0,'2024-08-13 18:17:06'),(22,2,4,0,'2024-08-13 18:17:15'),(23,2,3,1,'2024-08-13 18:52:07'),(24,2,4,0,'2024-08-13 18:59:19'),(25,2,3,0,'2024-08-13 18:59:32'),(26,2,3,1,'2024-08-13 19:09:56');
 /*!40000 ALTER TABLE `results` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,4 +257,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-13 19:18:45
+-- Dump completed on 2024-08-13 20:10:41

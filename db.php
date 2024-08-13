@@ -88,6 +88,42 @@ if ($conn->query($sql) === TRUE) {
         die("Error creating answers table: " . $conn->error);
     }
 
+    // إنشاء جدول المجموعات إذا لم يكن موجودًا
+    $sql = "CREATE TABLE IF NOT EXISTS groups (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(100) NOT NULL
+    )";
+
+    if ($conn->query($sql) !== TRUE) {
+        die("Error creating groups table: " . $conn->error);
+    }
+
+    // إنشاء جدول الطلاب في المجموعات إذا لم يكن موجودًا
+    $sql = "CREATE TABLE IF NOT EXISTS group_students (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    group_id INT(11) NOT NULL,
+    student_id INT(11) NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
+    )";
+
+    if ($conn->query($sql) !== TRUE) {
+        die("Error creating group_students table: " . $conn->error);
+    }
+
+    // إنشاء جدول الامتحانات في المجموعات إذا لم يكن موجودًا
+    $sql = "CREATE TABLE IF NOT EXISTS group_exams (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    group_id INT(11) NOT NULL,
+    exam_id INT(11) NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+    FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
+    )";
+
+    if ($conn->query($sql) !== TRUE) {
+        die("Error creating group_exams table: " . $conn->error);
+    }
+
     // التحقق من وجود مستخدمين وإنشاء حساب مدير افتراضي
     $sql = "SELECT COUNT(*) as count FROM users";
     $result = $conn->query($sql);
@@ -105,8 +141,6 @@ if ($conn->query($sql) === TRUE) {
             die("Error creating admin account: " . $conn->error);
         }
     }
-
-    // يمكنك إضافة جداول أخرى هنا بنفس الطريقة
 } else {
     die("Error creating database: " . $conn->error);
 }

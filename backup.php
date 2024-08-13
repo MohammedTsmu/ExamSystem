@@ -13,6 +13,7 @@ if (!is_dir('backup')) {
 $backup_file = 'backup/exam_system_backup.sql';
 $command = "C:/xampp/mysql/bin/mysqldump --user=root --password= --host=localhost exam_system > $backup_file";
 
+// تنفيذ الأمر وإنشاء النسخة الاحتياطية
 exec($command, $output, $return_var);
 
 if ($return_var === 0) {

@@ -8,6 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 $backup_file = 'backup/exam_system_backup.sql';
 $command = "C:/xampp/mysql/bin/mysql --user=root --password= --host=localhost exam_system < $backup_file";
 
+// تنفيذ الأمر لاستيراد قاعدة البيانات
 exec($command, $output, $return_var);
 
 if ($return_var === 0) {
@@ -15,4 +16,3 @@ if ($return_var === 0) {
 } else {
     echo "Error importing database.";
 }
-?>

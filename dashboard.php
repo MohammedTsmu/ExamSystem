@@ -30,6 +30,8 @@ if (!isset($_SESSION['username'])) {
             <a href='view_questions.php' class='btn'>Manage Questions</a> <!-- Link to manage questions -->
             <a href='add_student.php' class='btn'>Add New Student</a>
             <a href='view_students.php' class='btn'>View Students</a>
+            <a href='add_group.php' class='btn'>Add New Group</a> <!-- Link to add new group -->
+            <a href='view_groups.php' class='btn'>Manage Groups</a> <!-- Link to manage groups -->
             <a href='view_results.php' class='btn'>View Results</a>
             <a href='backup.php' class='btn'>Backup Database</a>
             <a href='import.php' class='btn'>Import Backup</a>
