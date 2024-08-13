@@ -29,24 +29,26 @@ $conn->close();
 </head>
 
 <body>
-    <h1>Student Results</h1>
-    <table>
-        <tr>
-            <th>Student</th>
-            <th>Exam</th>
-            <th>Score</th>
-            <th>Date and Time</th>
-        </tr>
-        <?php while ($row = $results->fetch_assoc()) : ?>
+    <div class="container">
+        <h1>Student Results</h1>
+        <table>
             <tr>
-                <td><?php echo $row['username']; ?></td>
-                <td><?php echo $row['exam_name']; ?></td>
-                <td><?php echo $row['score']; ?></td>
-                <td><?php echo $row['exam_date']; ?></td>
+                <th>Student</th>
+                <th>Exam</th>
+                <th>Score</th>
+                <th>Date and Time</th>
             </tr>
-        <?php endwhile; ?>
-    </table>
-    <a href="dashboard.php">Back to Dashboard</a>
+            <?php while ($row = $results->fetch_assoc()) : ?>
+                <tr>
+                    <td><?php echo $row['username']; ?></td>
+                    <td><?php echo $row['exam_name']; ?></td>
+                    <td><?php echo $row['score']; ?></td>
+                    <td><?php echo $row['exam_date']; ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
+        <a href="dashboard.php" class="btn btn-back">Back to Dashboard</a>
+    </div>
 </body>
 
 </html>

@@ -15,9 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO users (username, password, role) VALUES ('$username', '$password', '$role')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New student account created successfully!";
+        echo "<p class='success-msg'>New student account created successfully!</p>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "<p class='error-msg'>Error: " . $conn->error . "</p>";
     }
 }
 
@@ -35,15 +35,19 @@ $conn->close();
 </head>
 
 <body>
-    <h1>Add New Student</h1>
-    <form method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Create Account</button>
-    </form>
-    <a href="dashboard.php">Back to Dashboard</a>
+    <div class="container">
+        <h1>Add New Student</h1>
+        <form method="post" class="form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+        <a href="dashboard.php" class="btn btn-back">Back to Dashboard</a>
+    </div>
 </body>
 
 </html>

@@ -24,25 +24,27 @@ $conn->close();
 </head>
 
 <body>
-    <h1>Student Accounts</h1>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Actions</th>
-        </tr>
-        <?php while ($row = $students->fetch_assoc()) : ?>
+    <div class="container">
+        <h1>Student Accounts</h1>
+        <table>
             <tr>
-                <td><?php echo $row['id']; ?></td>
-                <td><?php echo $row['username']; ?></td>
-                <td>
-                    <a href="edit_student.php?id=<?php echo $row['id']; ?>">Edit</a>
-                    <a href="delete_student.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')">Delete</a>
-                </td>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Actions</th>
             </tr>
-        <?php endwhile; ?>
-    </table>
-    <a href="dashboard.php">Back to Dashboard</a>
+            <?php while ($row = $students->fetch_assoc()) : ?>
+                <tr>
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['username']; ?></td>
+                    <td>
+                        <a href="edit_student.php?id=<?php echo $row['id']; ?>" class="btn-action">Edit</a>
+                        <a href="delete_student.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')" class="btn-action btn-delete">Delete</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
+        <a href="dashboard.php" class="btn btn-back">Back to Dashboard</a>
+    </div>
 </body>
 
 </html>

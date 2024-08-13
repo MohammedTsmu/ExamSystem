@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "UPDATE users SET username='$username', password='$password' WHERE id=$id";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Student account updated successfully!";
+        echo "<p class='success-msg'>Student account updated successfully!</p>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "<p class='error-msg'>Error: " . $conn->error . "</p>";
     }
 }
 
@@ -31,21 +31,28 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Edit Student</h1>
-    <form method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" value="<?php echo $student['username']; ?>" required>
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Update Account</button>
-    </form>
-    <a href="view_students.php">Back to Students List</a>
+    <div class="container">
+        <h1>Edit Student</h1>
+        <form method="post" class="form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="<?php echo $student['username']; ?>" required>
+
+            <label for="password">New Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn">Update Account</button>
+        </form>
+        <a href="view_students.php" class="btn btn-back">Back to Students List</a>
+    </div>
 </body>
+
 </html>

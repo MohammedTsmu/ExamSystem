@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO exams (exam_name, exam_date) VALUES ('$exam_name', '$exam_date')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New exam created successfully!";
+        echo "<p class='success-msg'>New exam created successfully!</p>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "<p class='error-msg'>Error: " . $conn->error . "</p>";
     }
 }
 
@@ -34,15 +34,19 @@ $conn->close();
 </head>
 
 <body>
-    <h1>Add New Exam</h1>
-    <form method="post">
-        <label for="exam_name">Exam Name:</label>
-        <input type="text" id="exam_name" name="exam_name" required>
-        <label for="exam_date">Exam Date:</label>
-        <input type="date" id="exam_date" name="exam_date" required>
-        <button type="submit">Create Exam</button>
-    </form>
-    <a href="dashboard.php">Back to Dashboard</a>
+    <div class="container">
+        <h1>Add New Exam</h1>
+        <form method="post" class="form">
+            <label for="exam_name">Exam Name:</label>
+            <input type="text" id="exam_name" name="exam_name" required>
+
+            <label for="exam_date">Exam Date:</label>
+            <input type="date" id="exam_date" name="exam_date" required>
+
+            <button type="submit" class="btn">Create Exam</button>
+        </form>
+        <a href="dashboard.php" class="btn btn-back">Back to Dashboard</a>
+    </div>
 </body>
 
 </html>
