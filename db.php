@@ -138,6 +138,20 @@ if ($conn->query($sql) === TRUE) {
         die("Error creating sessions table: " . $conn->error);
     }
 
+    // إنشاء جدول لتحليل النتائج إذا لم يكن موجودًا
+    $sql = "CREATE TABLE IF NOT EXISTS result_analysis (
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        result_id INT(11) NOT NULL,
+        question_id INT(11) NOT NULL,
+        is_correct BOOLEAN NOT NULL,
+        FOREIGN KEY (result_id) REFERENCES results(id) ON DELETE CASCADE,
+        FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+    )";
+
+    if ($conn->query($sql) !== TRUE) {
+        die("Error creating result_analysis table: " . $conn->error);
+    }
+
     // التحقق من وجود مستخدمين وإنشاء حساب مدير افتراضي
     $sql = "SELECT COUNT(*) as count FROM users";
     $result = $conn->query($sql);
