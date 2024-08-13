@@ -171,13 +171,13 @@ a:hover {
   margin-right: 10px;
 }
 
-.option:hover {
-  background-color: #f1f1f1;
-}
-
 .option label {
   cursor: pointer;
   width: 100%;
+}
+
+.option:hover {
+  background-color: #f1f1f1;
 }
 
 /* Result Container */
@@ -206,4 +206,41 @@ a:hover {
 
 .btn-back:hover {
   background-color: #5a6268;
+}
+
+.success-msg {
+  color: #28a745;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.error-msg {
+  color: #ff5c5c;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Global Styles for Dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-btn {
+  width: calc(100% - 20px);
+  margin: 10px 0;
+  padding: 15px;
+  font-size: 18px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
 }
