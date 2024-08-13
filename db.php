@@ -28,9 +28,9 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول الامتحانات إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS exams (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    exam_name VARCHAR(100) NOT NULL,
-    exam_date DATE NOT NULL
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        exam_name VARCHAR(100) NOT NULL,
+        exam_date DATE NOT NULL
     )";
 
     if ($conn->query($sql) !== TRUE) {
@@ -39,16 +39,16 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول الأسئلة إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS questions (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    exam_id INT(11) NOT NULL,
-    question_text TEXT NOT NULL,
-    option_a VARCHAR(255) NOT NULL,
-    option_b VARCHAR(255) NOT NULL,
-    option_c VARCHAR(255) NOT NULL,
-    option_d VARCHAR(255) NOT NULL,
-    correct_option CHAR(1) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        exam_id INT(11) NOT NULL,
+        question_text TEXT NOT NULL,
+        option_a VARCHAR(255) NOT NULL,
+        option_b VARCHAR(255) NOT NULL,
+        option_c VARCHAR(255) NOT NULL,
+        option_d VARCHAR(255) NOT NULL,
+        correct_option CHAR(1) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
     )";
 
     if ($conn->query($sql) !== TRUE) {
@@ -57,13 +57,13 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول النتائج إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS results (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    student_id INT(11) NOT NULL,
-    exam_id INT(11) NOT NULL,
-    score INT(11) NOT NULL,
-    exam_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (student_id) REFERENCES users(id),
-    FOREIGN KEY (exam_id) REFERENCES exams(id)
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        student_id INT(11) NOT NULL,
+        exam_id INT(11) NOT NULL,
+        score INT(11) NOT NULL,
+        exam_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (student_id) REFERENCES users(id),
+        FOREIGN KEY (exam_id) REFERENCES exams(id)
     )";
 
     if ($conn->query($sql) !== TRUE) {
@@ -72,16 +72,16 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول الإجابات إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS answers (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    result_id INT(11) NOT NULL,
-    student_id INT(11) NOT NULL,
-    exam_id INT(11) NOT NULL,
-    question_id INT(11) NOT NULL,
-    selected_option CHAR(1) NOT NULL,
-    FOREIGN KEY (result_id) REFERENCES results(id),
-    FOREIGN KEY (student_id) REFERENCES users(id),
-    FOREIGN KEY (exam_id) REFERENCES exams(id),
-    FOREIGN KEY (question_id) REFERENCES questions(id)
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        result_id INT(11) NOT NULL,
+        student_id INT(11) NOT NULL,
+        exam_id INT(11) NOT NULL,
+        question_id INT(11) NOT NULL,
+        selected_option CHAR(1) NOT NULL,
+        FOREIGN KEY (result_id) REFERENCES results(id),
+        FOREIGN KEY (student_id) REFERENCES users(id),
+        FOREIGN KEY (exam_id) REFERENCES exams(id),
+        FOREIGN KEY (question_id) REFERENCES questions(id)
     )";
 
     if ($conn->query($sql) !== TRUE) {
@@ -90,8 +90,8 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول المجموعات إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS groups (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    group_name VARCHAR(100) NOT NULL
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        group_name VARCHAR(100) NOT NULL
     )";
 
     if ($conn->query($sql) !== TRUE) {
@@ -100,11 +100,11 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول الطلاب في المجموعات إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS group_students (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    group_id INT(11) NOT NULL,
-    student_id INT(11) NOT NULL,
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        group_id INT(11) NOT NULL,
+        student_id INT(11) NOT NULL,
+        FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+        FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
     )";
 
     if ($conn->query($sql) !== TRUE) {
@@ -113,15 +113,29 @@ if ($conn->query($sql) === TRUE) {
 
     // إنشاء جدول الامتحانات في المجموعات إذا لم يكن موجودًا
     $sql = "CREATE TABLE IF NOT EXISTS group_exams (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    group_id INT(11) NOT NULL,
-    exam_id INT(11) NOT NULL,
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
+        id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        group_id INT(11) NOT NULL,
+        exam_id INT(11) NOT NULL,
+        FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+        FOREIGN KEY (exam_id) REFERENCES exams(id) ON DELETE CASCADE
     )";
 
     if ($conn->query($sql) !== TRUE) {
         die("Error creating group_exams table: " . $conn->error);
+    }
+
+    // إنشاء جدول الجلسات إذا لم يكن موجودًا
+    $sql = "CREATE TABLE IF NOT EXISTS sessions (
+        session_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+        user_id INT(11) NOT NULL,
+        start_time DATETIME NOT NULL,
+        end_time DATETIME DEFAULT NULL,
+        status ENUM('active', 'ended', 'suspended') NOT NULL DEFAULT 'active',
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )";
+
+    if ($conn->query($sql) !== TRUE) {
+        die("Error creating sessions table: " . $conn->error);
     }
 
     // التحقق من وجود مستخدمين وإنشاء حساب مدير افتراضي
