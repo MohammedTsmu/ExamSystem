@@ -1,22 +1,19 @@
-<?php
-session_start();
-include('db.php');
-
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
-    header('Location: login.php');
-    exit();
-}
-?>
-
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Sessions</title>
+    <title>عرض الجلسات</title>
     <link rel="stylesheet" href="style.css">
     <script>
+        function formatDuration(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+
+            return `<span>${hours.toString().padStart(2, '0')}</span> س <span>${minutes.toString().padStart(2, '0')}</span> د`;
+        }
+
         function fetchSessions() {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'get_sessions_status.php', true);
@@ -26,6 +23,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
                     var output = '';
 
                     sessions.forEach(function(session) {
+                        const duration = formatDuration(session.duration_in_seconds);
                         output += `
                             <tr>
                                 <td>${session.session_id}</td>
@@ -33,6 +31,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
                                 <td>${session.start_time}</td>
                                 <td>${session.end_time ? session.end_time : 'N/A'}</td>
                                 <td>${session.status}</td>
+                                <td>${duration}</td>
                             </tr>
                         `;
                     });
@@ -43,11 +42,11 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
             xhr.send();
         }
 
-        setInterval(fetchSessions, 5000); // تحديث كل 5 ثوانٍ
+        setInterval(fetchSessions, 1000); // تحديث كل ثانية
     </script>
 </head>
 
-<body>
+<body onload="fetchSessions()">
     <div class="container">
         <h1>عرض الجلسات</h1>
         <table>
@@ -58,6 +57,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
                     <th>وقت البدء</th>
                     <th>وقت الانتهاء</th>
                     <th>الحالة</th>
+                    <th>الوقت المستغرق</th> <!-- العمود الجديد -->
                 </tr>
             </thead>
             <tbody id="sessionsTable">

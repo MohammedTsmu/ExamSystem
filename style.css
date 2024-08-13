@@ -244,3 +244,9 @@ a:hover {
     padding: 10px 20px;
   }
 }
+
+.duration span {
+  display: inline-block;
+  min-width: 20px;
+  text-align: center;
+}
